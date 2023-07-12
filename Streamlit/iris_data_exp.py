@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
@@ -14,33 +14,27 @@ iris_data = load_iris_data()
 
 # Set app title and page layout
 st.title("Iris Dataset Explorer")
-st.sidebar.title("Explore Options")
-st.set_page_config(layout = "wide")
 
 # Display the raw data
-st.sidebar.subheader("Raw Data")
-if st.sidebar.checkbox("Show Raw Data"):
+if st.checkbox("Show raw data"):
+    st.subheader("Raw Data")
     st.dataframe(iris_data)
 
 # Show the average sepal length for each species
-st.sidebar.subheader("Average Sepal Length")
-if st.sidebar.checkbox("Show Average Sepal Length"):
-    avg_sepal_length = iris_data.groupby("species")["sepal_length'="].mean()
+if st.checkbox("Show Average Sepal Length"):
+    avg_sepal_length = iris_data.groupby("species")["sepal_length"].mean()
     st.write(avg_sepal_length)
 
 # Display a scatter plot comparing two features
-st.sidebar.subheader("Scatter Plot")
-if st.sidebar.checkbox("Show Scatter Plot"):
-    feature1 = st.sidebar.selectbox("Select Feature 1", iris_data.columns[:-1])
-    feature2 = st.sidebar.selectbox("Select Feature 2", iris_data.columns[:-1])
-    st.write("Scatter Plot:", feature1, "vs", feature2)
-    plt.figure(figsize = (8, 6))
-    sns.scatterplot(data = iris_data, x = feature1, y = feature2, hue = "species")
-    st.pyplot()
+st.subheader("Compare two features using a scatter plot")
+feature_1 = st.selectbox("Select the first feature:", data.columns[:-1])
+feature_2 = st.selectbox("Select the second feature:", data.columns[:-1])
+scatter_plot = px.scatter(data, x = feature_1, y = feature_2, color = "species", hover_name = "species")
+st.plotly_chart(scatter_plot)
 
 # Filter data based on species
-st.sidebar.subheader("Filter Data")
-selected_species = st.sidebar.multiselect("Select Species", iris_data["species"].unique())
+st.subheader("Filter Data")
+selected_species = st.multiselect("Select Species", iris_data["species"].unique())
 filtered_data = iris_data[iris_data["species"].isin(selected_species)]
 if len(filtered_data) > 0:
     st.write("Filtered Data:")
@@ -49,15 +43,15 @@ else:
     st.warning("No data available for the selected species.")
 
 # Display a pairplot for the selected species
-st.sidebar.subheader("Pairplot")
+st.subheader("Pairplot")
 if st.sidebar.checkbox("Show Pairplot"):
     st.write("Pairplot for Selected Species")
     sns.pairplot(filtered_data, hue = "species")
     st.pyplot()
 
 # Show the distribution of a selected feature
-st.sidebar.subheader("Feature Distribution")
-feature = st.sidebar.selectbox("Select Feature", iris_data.columns[:-1])
+st.subheader("Feature Distribution")
+feature = st.selectbox("Select Feature", iris_data.columns[:-1])
 st.write("Distribution of", feature)
 sns.histplot(data = iris_data, x = feature, hue = "species", element = "step", kde = True)
 st.pyplot()
