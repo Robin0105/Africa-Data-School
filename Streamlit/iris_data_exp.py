@@ -25,23 +25,23 @@ if st.sidebar.checkbox("Show Raw Data"):
 # Show the average sepal length for each species
 st.sidebar.subheader("Average Sepal Length")
 if st.sidebar.checkbox("Show Average Sepal Length"):
-    avg_sepal_length = iris_data.groupby('species')['sepal_length'].mean()
+    avg_sepal_length = iris_data.groupby("species")["sepal_length'="].mean()
     st.write(avg_sepal_length)
 
 # Display a scatter plot comparing two features
 st.sidebar.subheader("Scatter Plot")
 if st.sidebar.checkbox("Show Scatter Plot"):
-    feature1 = st.sidebar.selectbox("Select Feature 1", iris_data.columns)
-    feature2 = st.sidebar.selectbox("Select Feature 2", iris_data.columns)
+    feature1 = st.sidebar.selectbox("Select Feature 1", iris_data.columns[:-1])
+    feature2 = st.sidebar.selectbox("Select Feature 2", iris_data.columns[:-1])
     st.write("Scatter Plot:", feature1, "vs", feature2)
     plt.figure(figsize = (8, 6))
-    sns.scatterplot(data = iris_data, x = feature1, y = feature2, hue = 'species')
+    sns.scatterplot(data = iris_data, x = feature1, y = feature2, hue = "species")
     st.pyplot()
 
 # Filter data based on species
 st.sidebar.subheader("Filter Data")
-selected_species = st.sidebar.multiselect("Select Species", iris_data['species'].unique())
-filtered_data = iris_data[iris_data['species'].isin(selected_species)]
+selected_species = st.sidebar.multiselect("Select Species", iris_data["species"].unique())
+filtered_data = iris_data[iris_data["species"].isin(selected_species)]
 if len(filtered_data) > 0:
     st.write("Filtered Data:")
     st.write(filtered_data)
@@ -52,12 +52,12 @@ else:
 st.sidebar.subheader("Pairplot")
 if st.sidebar.checkbox("Show Pairplot"):
     st.write("Pairplot for Selected Species")
-    sns.pairplot(filtered_data, hue = 'species')
+    sns.pairplot(filtered_data, hue = "species")
     st.pyplot()
 
 # Show the distribution of a selected feature
 st.sidebar.subheader("Feature Distribution")
-feature = st.sidebar.selectbox("Select Feature", iris_data.columns)
+feature = st.sidebar.selectbox("Select Feature", iris_data.columns[:-1])
 st.write("Distribution of", feature)
-sns.histplot(data = iris_data, x = feature, hue = 'species', element = 'step', kde = True)
+sns.histplot(data = iris_data, x = feature, hue = "species", element = "step", kde = True)
 st.pyplot()
