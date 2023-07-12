@@ -27,9 +27,9 @@ if st.checkbox("Show Average Sepal Length"):
 
 # Display a scatter plot comparing two features
 st.subheader("Compare two features using a scatter plot")
-feature_1 = st.selectbox("Select the first feature:", data.columns[:-1])
-feature_2 = st.selectbox("Select the second feature:", data.columns[:-1])
-scatter_plot = px.scatter(data, x = feature_1, y = feature_2, color = "species", hover_name = "species")
+feature_1 = st.selectbox("Select the first feature:", iris_data.columns[:-1])
+feature_2 = st.selectbox("Select the second feature:", iris_data.columns[:-1])
+scatter_plot = px.scatter(iris_data, x = feature_1, y = feature_2, color = "species", hover_name = "species")
 st.plotly_chart(scatter_plot)
 
 # Filter data based on species
