@@ -52,6 +52,7 @@ if st.sidebar.checkbox("Show Pairplot"):
 
 # Show the distribution of a selected feature
 st.subheader("Feature Distribution")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 feature = st.selectbox("Select Feature", iris_data.columns[:-1])
 st.write("Distribution of", feature)
 sns.histplot(data = iris_data, x = feature, hue = "species", element = "step", kde = True)
