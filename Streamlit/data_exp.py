@@ -7,57 +7,56 @@ import matplotlib.pyplot as plt
 def load_iris_data():
     url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
     column_names = ["sepal_length", "sepal_width", "petal_length", "petal_width", "species"]
-    data = pd.read_csv(url, header=None, names=column_names)
+    data = pd.read_csv(url, header = None, names = column_names)
     return data
 
-data = load_iris_data()
+iris_data = load_iris_data()
 
 st.title("Iris Dataset Explorer")
-st.write("Explore the Iris dataset by answering the following questions:")
+st.sidebar.title("Explore Options")
+st.set_page_config(layout = "wide")
 
 # Display the raw data
-if st.checkbox("Show raw data"):
-    st.subheader("Raw Data")
-    st.dataframe(data)
+st.sidebar.subheader("Raw Data")
+if st.sidebar.checkbox("Show Raw Data"):
+    st.dataframe(iris_data)
 
 # Question 1: Show the average sepal length for each species
-if st.checkbox("Show the average sepal length for each species"):
-    st.subheader("Average Sepal Length per Species")
-    avg_sepal_length = data.groupby("species")["sepal_length"].mean()
+st.sidebar.subheader("Average Sepal Length")
+if st.sidebar.checkbox("Show Average Sepal Length"):
+    avg_sepal_length = iris_data.groupby("species")["sepal_length'="].mean()
     st.write(avg_sepal_length)
 
 # Question 2: Display a scatter plot comparing two features
-st.subheader("Compare two features using a scatter plot")
-feature_1 = st.selectbox("Select the first feature:", data.columns[:-1])
-feature_2 = st.selectbox("Select the second feature:", data.columns[:-1])
-
-scatter_plot = px.scatter(data, x=feature_1, y=feature_2, color="species", hover_name="species")
-st.plotly_chart(scatter_plot)
+st.sidebar.subheader("Scatter Plot")
+if st.sidebar.checkbox("Show Scatter Plot"):
+    feature1 = st.sidebar.selectbox("Select Feature 1", iris_data.columns[:-1])
+    feature2 = st.sidebar.selectbox("Select Feature 2", iris_data.columns[:-1])
+    st.write("Scatter Plot:", feature1, "vs", feature2)
+    plt.figure(figsize = (8, 6))
+    sns.scatterplot(data = iris_data, x = feature1, y = feature2, hue = "species")
+    st.pyplot()
 
 # Question 3: Filter data based on species
-st.subheader("Filter data based on species")
-selected_species = st.multiselect("Select species to display:", data["species"].unique())
-
-if selected_species:
-    filtered_data = data[data["species"].isin(selected_species)]
-    st.dataframe(filtered_data)
+st.sidebar.subheader("Filter Data")
+selected_species = st.sidebar.multiselect("Select Species", iris_data["species"].unique())
+filtered_data = iris_data[iris_data["species"].isin(selected_species)]
+if len(filtered_data) > 0:
+    st.write("Filtered Data:")
+    st.write(filtered_data)
 else:
-    st.write("No species selected.")
+    st.warning("No data available for the selected species.")
 
 # Question 4: Display a pairplot for the selected species
-if st.checkbox("Show pairplot for the selected species"):
-    st.subheader("Pairplot for the Selected Species")
-
-    if selected_species:
-        sns.pairplot(filtered_data, hue="species")
-    else:
-        sns.pairplot(data, hue="species")
-        
+st.sidebar.subheader("Pairplot")
+if st.sidebar.checkbox("Show Pairplot"):
+    st.write("Pairplot for Selected Species")
+    sns.pairplot(filtered_data, hue = "species")
     st.pyplot()
 
 # Question 5: Show the distribution of a selected feature
-st.subheader("Distribution of a Selected Feature")
-selected_feature = st.selectbox("Select a feature to display its distribution:", data.columns[:-1])
-
-hist_plot = px.histogram(data, x=selected_feature, color="species", nbins=30, marginal="box", hover_data=data.columns)
-st.plotly_chart(hist_plot)
+st.sidebar.subheader("Feature Distribution")
+feature = st.sidebar.selectbox("Select Feature", iris_data.columns[:-1])
+st.write("Distribution of", feature)
+sns.histplot(data = iris_data, x = feature, hue = "species", element = "step", kde = True)
+st.pyplot()
