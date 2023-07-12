@@ -44,6 +44,7 @@ else:
 
 # Display a pairplot for the selected species
 st.subheader("Pairplot")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 if st.sidebar.checkbox("Show Pairplot"):
     st.write("Pairplot for Selected Species")
     sns.pairplot(filtered_data, hue = "species")
