@@ -59,6 +59,7 @@ st.plotly_chart(fig_fare)
 
 # Correlation Heatmap
 st.subheader("Correlation Heatmap")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 correlation = data.corr()
 sns.heatmap(correlation, annot = True, cmap = 'coolwarm', fmt = ".2f", square = True, cbar = True)
 st.pyplot()
