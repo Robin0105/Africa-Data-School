@@ -38,7 +38,7 @@ st.plotly_chart(fig_gender)
 # Survived vs. Not Survived by Class
 st.subheader("Survived vs. Not Survived by Class")
 survived_class = data.groupby(['Survived', 'Pclass']).size().reset_index(name = 'Count')
-fig_class = px.bar(survived_class, x = 'Survived', y = 'Count', color = 'Class', barmode = 'group')
+fig_class = px.bar(survived_class, x = 'Survived', y = 'Count', color = 'Pclass', barmode = 'group')
 st.plotly_chart(fig_class)
 
 # Age Distribution
