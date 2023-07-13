@@ -3,8 +3,6 @@ import plotly.express as px
 import streamlit as st
 
 st.title("Titanic Data Analysis")
-st.write("This app analyzes the Titanic dataset and displays various visualizations.")
-st.set_page_config(layout = "wide")
 
 @st.cache_data
 def load_data():
