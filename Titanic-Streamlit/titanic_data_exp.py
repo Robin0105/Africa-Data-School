@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import seaborn as sns
 import streamlit as st
 
 st.title("Titanic Data Analysis")
@@ -59,5 +60,5 @@ st.plotly_chart(fig_fare)
 # Correlation Heatmap
 st.subheader("Correlation Heatmap")
 correlation = data.corr()
-fig_corr = px.imshow(correlation)
-st.plotly_chart(fig_corr)
+sns.heatmap(correlation, annot = True, cmap = 'coolwarm', fmt = ".2f", square = True, cbar = True)
+st.pyplot()
